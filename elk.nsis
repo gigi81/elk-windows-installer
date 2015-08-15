@@ -185,6 +185,10 @@ Section
   SetOutPath $INSTDIR\scripts
   
   File /r "scripts\*"
+  
+  SetOutPath $INSTDIR\logstash\conf
+  
+  File /r "conf\logstash\*"
 
 ; install elasticsearch service
 ExecWait "$INSTDIR\elasticsearch\bin\service.bat install" $0
