@@ -11,8 +11,20 @@ Prerequisites
 
 You need to install the Java SDK x64 (not the JRE). You can download it from here: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
+Usage
+============
+The installer will create these windows services for you:
+- elasticsearch-service-x64
+- logstash
+- kibana
+You can customize the services configuration like netowrk ports, logstash input filters and outputs, data folders, in the installation folder.
+
+After installation, you can open kibana browsing to http://localhost:5601
+
 Credits
 ============
+
+Elasticsearch, Logstash and Kibana are developed by Elastichsearch (http://www.elasticsearch.com).
 
 The installer is based on the work of:
 - https://www.ulyaoth.net/resources/tutorial-install-logstash-and-kibana-on-a-windows-server.34/
