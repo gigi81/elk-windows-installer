@@ -11,17 +11,18 @@ SET KIBANA_VERSION=4.1.1
 rem ---------- Download packages ----------
 if not exist "downloads" mkdir downloads
 
-rem %CURL% "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-%ELASTIC_SEARCH_VERSION%.zip" -o downloads\elasticsearch.zip
-rem %CURL% "https://download.elastic.co/logstash/logstash/logstash-%LOGSTASH_VERSION%.zip" -o downloads\logstash.zip
-rem %CURL% "https://download.elastic.co/kibana/kibana/kibana-%KIBANA_VERSION%-windows.zip" -o downloads\kibana.zip
+if not exist "downloads\elasticsearch.zip" %CURL% "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-%ELASTIC_SEARCH_VERSION%.zip" -o downloads\elasticsearch.zip
+if not exist "downloads\logstash.zip" %CURL% "https://download.elastic.co/logstash/logstash/logstash-%LOGSTASH_VERSION%.zip" -o downloads\logstash.zip
+if not exist "downloads\kibana.zip" %CURL% "https://download.elastic.co/kibana/kibana/kibana-%KIBANA_VERSION%-windows.zip" -o downloads\kibana.zip
 rem --------------------------------------
 
 rem ---------- Unzip packages ----------
-if not exist "temp" mkdir temp
+rmdir /Q /S temp
+mkdir temp
 
-rem %ZIP% x -otemp downloads\elasticsearch.zip
-rem %ZIP% x -otemp downloads\logstash.zip
-rem %ZIP% x -otemp downloads\kibana.zip
+%ZIP% x -otemp downloads\elasticsearch.zip
+%ZIP% x -otemp downloads\logstash.zip
+%ZIP% x -otemp downloads\kibana.zip
 
 move temp\elasticsearch-%ELASTIC_SEARCH_VERSION% temp\elasticsearch
 move temp\logstash-%LOGSTASH_VERSION% temp\logstash
