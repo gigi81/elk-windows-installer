@@ -1,0 +1,18 @@
+SSL Certificate Bundles
+=======================
+
+To generate a new SSL certificate bundle:
+
+1. Open Windows Explorer and go to the folder where cURL is installed. By
+   default it is either C:\Program Files\cURL or C:\Program Files (x86)\cURL
+   
+2. Double click mk-ca-bundle.vbs, or if you have Perl, mk-ca-bundle.pl. The
+   script will download a new SSL bundle from Mozilla. It will be called
+   ca-bundle.crt.
+   
+3. Rename the file curl-ca-bundle.crt.
+
+4. Drag it into the bin folder.
+
+5. You will be notified that a file with that name already exists in the bin
+   folder. Choose the option to replace the old file.

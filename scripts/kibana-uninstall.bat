@@ -1,0 +1,1 @@
+%NSSM% remove kibana confirm
