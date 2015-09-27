@@ -21,7 +21,14 @@
 ;       misrepresented as being the original software.
  
 ;    3. This notice may not be removed or altered from any source distribution.
- 
+
+; include for some of the windows messages defines
+!include "winmessages.nsh"
+
+; HKLM (all users) vs HKCU (current user) defines
+!define env_hklm 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
+!define env_hkcu 'HKCU "Environment"'
+
 ;version is passed as a parameter during makensis invocation
 !define setup "dist\elk-x64-${version}.exe"
  
@@ -133,17 +140,25 @@ FunctionEnd
 
 ; beginning (invisible) section
 Section
+  ClearErrors
+  SetRegView 64
   ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
   ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$1" "JavaHome"
-   
+  DetailPrint "$1 $2"
+  
   IfErrors 0 NoAbort
     MessageBox MB_OK "Couldn't find a Java Development Kit installed. Setup will exit now." 
-    Quit        
+    Quit
    
   NoAbort:
     DetailPrint "Found JDK in path $2"
     StrCpy $R0 "$2"
     System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("JAVA_HOME", R0).r0'
+
+    ; set environment variable
+    WriteRegExpandStr ${env_hklm} JAVA_HOME $R0
+    ; make sure windows knows about the change
+    SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000   
 
   WriteRegStr HKLM "${regkey}" "Install_Dir" "$INSTDIR"
   ; write uninstall strings
@@ -243,5 +258,5 @@ Section "Uninstall"
   DeleteRegKey HKLM "${regkey}"
  
   RmDir /r "$INSTDIR"
- 
+
 SectionEnd
