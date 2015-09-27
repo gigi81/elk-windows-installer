@@ -13,7 +13,7 @@ You need to install the Java SDK x64 (not the JRE). You can download it from her
 
 Usage
 ============
-You can download the installer from the releases section.
+You can download the installer from the [releases](https://github.com/gigi81/elk-windows-installer/releases) section.
 
 The installer will create these windows services for you:
 - elasticsearch-service-x64
