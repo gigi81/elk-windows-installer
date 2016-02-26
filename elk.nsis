@@ -1,5 +1,5 @@
 ; ELK (elasticsearch - logstash - kibana) windows installer nsis script
-; Copyright (c) 2015 Luigi Grilli
+; Copyright (c) 2016 Luigi Grilli
 ;
 ; basic script template for NSIS installers
 ;
@@ -105,6 +105,7 @@ Page license
 !endif
  
 ; Page components
+Page components
 Page directory
 Page instfiles
  
@@ -175,7 +176,6 @@ Section
  
   SetOutPath $INSTDIR
  
- 
 ; package all files, recursively, preserving attributes
 ; assume files are in the correct places
  
@@ -191,42 +191,52 @@ Section
   File /a "${srcdir}\${icon}"
 !endif
 
-  File /r "${srcdir}\*"
-
   SetOutPath $INSTDIR\nssm
-  
   File /r "tools\nssm\*"
 
   SetOutPath $INSTDIR\scripts
-  
   File /r "scripts\*"
   
-  SetOutPath $INSTDIR\logstash\conf
-  
-  File /r "conf\logstash\*"
-
-; install elasticsearch service
-ExecWait "$INSTDIR\elasticsearch\bin\service.bat install" $0
-; set service to start automatically (delayed)
-ExecWait "sc config elasticsearch-service-x64 start=delayed-auto" $0
-
-StrCpy $R0 "$INSTDIR"
-System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("INSTDIR", R0).r0'
-StrCpy $R0 "$INSTDIR\nssm\win64\nssm.exe"
-System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("NSSM", R0).r0'
-
-ExecWait "$INSTDIR\scripts\logstash-install.bat" $0
-ExecWait "$INSTDIR\scripts\kibana-install.bat" $0
-
-; start services
-ExecWait "net start elasticsearch-service-x64" $0
-ExecWait "net start logstash" $0
-ExecWait "net start kibana" $0
-
-WriteUninstaller "${uninstaller}"
- 
+  WriteUninstaller "${uninstaller}"
 SectionEnd
   
+Section "Elasticsearch"
+  SetOutPath $INSTDIR\elasticsearch
+  File /r "${srcdir}\elasticsearch\*"
+  
+  ; install elasticsearch service
+  ExecWait "$INSTDIR\elasticsearch\bin\service.bat install" $0
+  ; set service to start automatically (delayed)
+  ExecWait "sc config elasticsearch-service-x64 start=delayed-auto" $0
+  
+  StrCpy $R0 "$INSTDIR"
+  System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("INSTDIR", R0).r0'
+  StrCpy $R0 "$INSTDIR\nssm\win64\nssm.exe"
+  System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("NSSM", R0).r0'
+  
+  ; start services
+  ExecWait "net start elasticsearch-service-x64" $0
+SectionEnd
+
+Section "Logstash"
+  SetOutPath $INSTDIR\logstash
+  File /r "${srcdir}\logstash\*"
+  
+  SetOutPath $INSTDIR\logstash\conf
+  File /r "conf\logstash\*"
+
+  ExecWait "$INSTDIR\scripts\logstash-install.bat" $0
+  ExecWait "net start logstash" $0
+SectionEnd
+
+Section "Kibana"
+  SetOutPath $INSTDIR\kibana
+  File /r "${srcdir}\kibana\*"
+
+  ExecWait "$INSTDIR\scripts\kibana-install.bat" $0
+  ExecWait "net start kibana" $0
+SectionEnd
+
 ; Uninstaller
 ; All section names prefixed by "Un" will be in the uninstaller
  

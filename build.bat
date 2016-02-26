@@ -3,7 +3,7 @@ SET NSIS=tools\nsis\makensis.exe
 SET NSSM=tools\nssm\win64\nssm.exe
 SET ZIP=tools\7zip\7za.exe
 
-SET VERSION=0.9.1
+SET VERSION=0.9.2
 SET ELASTIC_SEARCH_VERSION=1.7.1
 SET LOGSTASH_VERSION=1.5.3
 SET KIBANA_VERSION=4.1.1
