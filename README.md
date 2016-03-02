@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/5y1w99hoscil3xql?svg=true)](https://ci.appveyor.com/project/gigi81/elk-windows-installer)
+
 # elk-windows-installer
 Elasticsearch Logstash Kibana Installer for Windows
 ============
