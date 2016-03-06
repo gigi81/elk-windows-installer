@@ -25,6 +25,9 @@
 ; include for some of the windows messages defines
 !include "winmessages.nsh"
 
+!include Sections.nsh
+!include LogicLib.nsh
+
 ; HKLM (all users) vs HKCU (current user) defines
 !define env_hklm 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 !define env_hkcu 'HKCU "Environment"'
@@ -156,10 +159,10 @@ Section
     StrCpy $R0 "$2"
     System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("JAVA_HOME", R0).r0'
 
-    ; set environment variable
-    WriteRegExpandStr ${env_hklm} JAVA_HOME $R0
-    ; make sure windows knows about the change
-    SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000   
+  ; set environment variable
+  WriteRegExpandStr ${env_hklm} JAVA_HOME $R0
+  ; make sure windows knows about the change
+  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000   
 
   WriteRegStr HKLM "${regkey}" "Install_Dir" "$INSTDIR"
   ; write uninstall strings
@@ -200,7 +203,7 @@ Section
   WriteUninstaller "${uninstaller}"
 SectionEnd
   
-Section "Elasticsearch"
+Section "Elasticsearch" Elasticsearch
   SetOutPath $INSTDIR\elasticsearch
   File /r "${srcdir}\elasticsearch\*"
   
@@ -218,7 +221,7 @@ Section "Elasticsearch"
   ExecWait "net start elasticsearch-service-x64" $0
 SectionEnd
 
-Section "Logstash"
+Section "Logstash" Logstash
   SetOutPath $INSTDIR\logstash
   File /r "${srcdir}\logstash\*"
   
@@ -229,13 +232,42 @@ Section "Logstash"
   ExecWait "net start logstash" $0
 SectionEnd
 
-Section "Kibana"
+Section "Kibana" Kibana
   SetOutPath $INSTDIR\kibana
   File /r "${srcdir}\kibana\*"
 
   ExecWait "$INSTDIR\scripts\kibana-install.bat" $0
   ExecWait "net start kibana" $0
 SectionEnd
+
+Section "Marvel (requires elasticsearch, kibana)" Marvel
+  ExecWait "$INSTDIR\scripts\marvel-install.bat" $0
+SectionEnd
+
+Section "Sense (requires kibana)" Sense
+  ExecWait "$INSTDIR\scripts\sense-install.bat" $0
+SectionEnd
+
+Function .onSelChange
+${If} ${SectionIsSelected} ${Elasticsearch}
+  ${If} ${SectionIsSelected} ${Kibana}
+    !insertmacro ClearSectionFlag ${Marvel} ${SF_RO}
+  ${Else}
+    !insertmacro UnselectSection ${Marvel}
+    !insertmacro SetSectionFlag ${Marvel} ${SF_RO}
+  ${EndIf}
+${Else}
+  !insertmacro UnselectSection ${Marvel}
+  !insertmacro SetSectionFlag ${Marvel} ${SF_RO}
+${EndIf}
+
+${IfNot} ${SectionIsSelected} ${Kibana}
+  !insertmacro UnselectSection ${Sense}
+  !insertmacro SetSectionFlag ${Sense} ${SF_RO}
+${Else}
+  !insertmacro ClearSectionFlag ${Sense} ${SF_RO}
+${EndIf}
+FunctionEnd
 
 ; Uninstaller
 ; All section names prefixed by "Un" will be in the uninstaller
