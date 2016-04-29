@@ -1,13 +1,19 @@
 @echo off
+rem ---------- tools
 SET CURL=tools\curl\bin\curl.exe
 SET NSIS=tools\nsis\makensis.exe
 SET NSSM=tools\nssm\win64\nssm.exe
 SET ZIP=tools\7zip\7za.exe
 
-SET VERSION=1.0.2
+rem ---------- components versions
 SET ELASTIC_SEARCH_VERSION=2.3.2
 SET LOGSTASH_VERSION=2.3.2
 SET KIBANA_VERSION=4.5.0
+
+rem ---------- installer version
+SET INSTALLER_VERSION=1.0.0
+IF DEFINED APPVEYOR_BUILD_VERSION SET INSTALLER_VERSION=APPVEYOR_BUILD_VERSION
+echo "Building installer v%INSTALLER_VERSION%"
 
 rem ---------- Download packages ----------
 if not exist "downloads" mkdir downloads
@@ -32,4 +38,4 @@ rem ------------------------------------
 
 rem ---------- Run makensis ----------
 if not exist "dist" mkdir dist
-%NSIS% /Dversion="%VERSION%" elk.nsi
+%NSIS% /Dversion="%INSTALLER_VERSION%" elk.nsi
