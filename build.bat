@@ -1,9 +1,10 @@
+@echo off
 SET CURL=tools\curl\bin\curl.exe
 SET NSIS=tools\nsis\makensis.exe
 SET NSSM=tools\nssm\win64\nssm.exe
 SET ZIP=tools\7zip\7za.exe
 
-SET VERSION=1.0.1
+SET VERSION=1.0.2
 SET ELASTIC_SEARCH_VERSION=2.3.2
 SET LOGSTASH_VERSION=2.3.2
 SET KIBANA_VERSION=4.5.0
