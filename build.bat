@@ -4,9 +4,9 @@ SET NSSM=tools\nssm\win64\nssm.exe
 SET ZIP=tools\7zip\7za.exe
 
 SET VERSION=1.0.1
-SET ELASTIC_SEARCH_VERSION=2.2.0
-SET LOGSTASH_VERSION=2.2.2
-SET KIBANA_VERSION=4.4.1
+SET ELASTIC_SEARCH_VERSION=2.3.2
+SET LOGSTASH_VERSION=2.3.2
+SET KIBANA_VERSION=4.5.0
 
 rem ---------- Download packages ----------
 if not exist "downloads" mkdir downloads
