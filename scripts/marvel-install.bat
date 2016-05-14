@@ -1,6 +1,7 @@
+rem this plugin requires license plugin installed
+
 cd "%INSTDIR%\elasticsearch"
-bin\plugin install license
-bin\plugin install marvel-agent
+bin\plugin install -b marvel-agent
 
 cd "%INSTDIR%\kibana"
 bin\kibana plugin --install elasticsearch/marvel/latest

@@ -240,27 +240,59 @@ Section "Kibana" Kibana
   ExecWait "net start kibana" $0
 SectionEnd
 
-Section "Marvel (requires elasticsearch, kibana)" Marvel
+Section /o "License Plugin (requires elasticsearch)" License
+  ExecWait "$INSTDIR\scripts\license-install.bat" $0
+SectionEnd
+
+Section /o "Marvel Plugin (requires elasticsearch, kibana, license)" Marvel
   ExecWait "$INSTDIR\scripts\marvel-install.bat" $0
 SectionEnd
 
-Section "Sense (requires kibana)" Sense
+Section /o "Sense Plugin (requires kibana)" Sense
   ExecWait "$INSTDIR\scripts\sense-install.bat" $0
+SectionEnd
+
+Section /o "Watcher Plugin (requires elasticsearch, license)" Watcher
+  ExecWait "$INSTDIR\scripts\watcher-install.bat" $0
 SectionEnd
 
 Function .onSelChange
 ${If} ${SectionIsSelected} ${Elasticsearch}
+  ;License plugin
+  !insertmacro ClearSectionFlag ${License} ${SF_RO}
+
+  ;Marvel Plugin
   ${If} ${SectionIsSelected} ${Kibana}
-    !insertmacro ClearSectionFlag ${Marvel} ${SF_RO}
+    ${If} ${SectionIsSelected} ${License}
+      !insertmacro ClearSectionFlag ${Marvel} ${SF_RO}
+    ${Else}
+      !insertmacro UnselectSection ${Marvel}
+      !insertmacro SetSectionFlag ${Marvel} ${SF_RO}
+    ${EndIf}
   ${Else}
     !insertmacro UnselectSection ${Marvel}
     !insertmacro SetSectionFlag ${Marvel} ${SF_RO}
   ${EndIf}
+  
+  ;Watcher plugin
+  ${If} ${SectionIsSelected} ${License}
+    !insertmacro ClearSectionFlag ${Watcher} ${SF_RO}
+  ${Else}
+    !insertmacro UnselectSection ${Watcher}
+    !insertmacro SetSectionFlag ${Watcher} ${SF_RO}
+  ${EndIf}
 ${Else}
+  !insertmacro UnselectSection ${License}
+  !insertmacro SetSectionFlag ${License} ${SF_RO}
+
   !insertmacro UnselectSection ${Marvel}
   !insertmacro SetSectionFlag ${Marvel} ${SF_RO}
+  
+  !insertmacro UnselectSection ${Watcher}
+  !insertmacro SetSectionFlag ${Watcher} ${SF_RO}
 ${EndIf}
 
+; Sense plugin
 ${IfNot} ${SectionIsSelected} ${Kibana}
   !insertmacro UnselectSection ${Sense}
   !insertmacro SetSectionFlag ${Sense} ${SF_RO}
@@ -298,7 +330,6 @@ Section "Uninstall"
 
   DeleteRegKey HKLM "${uninstkey}"
   DeleteRegKey HKLM "${regkey}"
- 
-  RmDir /r "$INSTDIR"
 
+  RmDir /r "$INSTDIR"
 SectionEnd
