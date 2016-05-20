@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/5y1w99hoscil3xql?svg=true)](https://ci.appveyor.com/project/gigi81/elk-windows-installer)
+[![Github All Releases](https://img.shields.io/github/downloads/gigi81/elk-windows-installer/total.svg?maxAge=2592000)]()
 
 # elk-windows-installer
 Elasticsearch Logstash Kibana Installer for Windows
