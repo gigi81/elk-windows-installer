@@ -30,9 +30,11 @@ After installation, you can open kibana browsing to http://localhost:5601
 Silent Install
 ============
 It's possible to run the installer from the command line without ui:
+
 elk-x64-installer.exe /S /D=C:\Elk Install Dir
 
-Note: the installation dir must be the last parameter without quotes even when there are spaces in the path
+Note: the installation dir must be the last parameter without quotes even when there are spaces in the path.
+
 For more details [check the nsis documentation](http://nsis.sourceforge.net/Docs/Chapter4.html#silent)
 
 Credits
