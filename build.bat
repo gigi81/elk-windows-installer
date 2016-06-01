@@ -6,9 +6,9 @@ SET NSSM=tools\nssm\win64\nssm.exe
 SET ZIP=tools\7zip\7za.exe
 
 rem ---------- components versions
-SET ELASTIC_SEARCH_VERSION=2.3.2
+SET ELASTIC_SEARCH_VERSION=2.3.3
 SET LOGSTASH_VERSION=2.3.2
-SET KIBANA_VERSION=4.5.0
+SET KIBANA_VERSION=4.5.1
 
 rem ---------- installer version
 SET INSTALLER_VERSION=1.0.0
