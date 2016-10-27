@@ -33,7 +33,7 @@ mkdir temp
 
 move temp\elasticsearch-%ELASTIC_SEARCH_VERSION% temp\elasticsearch
 move temp\logstash-%LOGSTASH_VERSION% temp\logstash
-move temp\kibana-%KIBANA_VERSION%-windows temp\kibana
+move temp\kibana-%KIBANA_VERSION%-windows-x86 temp\kibana
 rem ------------------------------------
 
 rem ---------- Run makensis ----------
