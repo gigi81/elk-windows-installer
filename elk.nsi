@@ -206,9 +206,12 @@ SectionEnd
 Section "Elasticsearch" Elasticsearch
   SetOutPath $INSTDIR\elasticsearch
   File /r "${srcdir}\elasticsearch\*"
+
+  SetOutPath $INSTDIR\elasticsearch\config
+  File /r "conf\elasticsearch\*"
   
   ; install elasticsearch service
-  ExecWait "$INSTDIR\elasticsearch\bin\service.bat install" $0
+  ExecWait "$INSTDIR\elasticsearch\bin\elasticsearch-service.bat install" $0
   ; set service to start automatically (delayed)
   ExecWait "sc config elasticsearch-service-x64 start=delayed-auto" $0
   
