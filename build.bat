@@ -18,9 +18,9 @@ echo "Building installer v%INSTALLER_VERSION%"
 rem ---------- Download packages ----------
 if not exist "downloads" mkdir downloads
 
-if not exist "downloads\elasticsearch-%ELASTIC_SEARCH_VERSION%.zip" %CURL% "https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/zip/elasticsearch/%ELASTIC_SEARCH_VERSION%/elasticsearch-%ELASTIC_SEARCH_VERSION%.zip" -o downloads\elasticsearch-%ELASTIC_SEARCH_VERSION%.zip
-if not exist "downloads\logstash-%LOGSTASH_VERSION%.zip" %CURL% "https://download.elastic.co/logstash/logstash/logstash-%LOGSTASH_VERSION%.zip" -o downloads\logstash-%LOGSTASH_VERSION%.zip
-if not exist "downloads\kibana-%KIBANA_VERSION%.zip" %CURL% "https://download.elastic.co/kibana/kibana/kibana-%KIBANA_VERSION%-windows.zip" -o downloads\kibana-%KIBANA_VERSION%.zip
+if not exist "downloads\elasticsearch-%ELASTIC_SEARCH_VERSION%.zip" %CURL% "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-%ELASTIC_SEARCH_VERSION%.zip" -o downloads\elasticsearch-%ELASTIC_SEARCH_VERSION%.zip
+if not exist "downloads\logstash-%LOGSTASH_VERSION%.zip" %CURL% "https://artifacts.elastic.co/downloads/logstash/logstash-%LOGSTASH_VERSION%.zip" -o downloads\logstash-%LOGSTASH_VERSION%.zip
+if not exist "downloads\kibana-%KIBANA_VERSION%.zip" %CURL% "https://artifacts.elastic.co/downloads/kibana/kibana-%KIBANA_VERSION%-windows-x86.zip" -o downloads\kibana-%KIBANA_VERSION%.zip
 rem --------------------------------------
 
 rem ---------- Unzip packages ----------
