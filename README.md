@@ -23,7 +23,7 @@ The installer will create these windows services for you:
 - logstash
 - kibana
 
-You can customize the services configuration like netowrk ports, logstash input filters and outputs, data folders, in the installation folder.
+You can customize the services configuration like network ports, logstash input filters and outputs, data folders, in the installation folder.
 
 After installation, you can open kibana browsing to http://localhost:5601
 
