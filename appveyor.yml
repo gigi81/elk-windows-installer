@@ -1,0 +1,13 @@
+version: 5.5.2.{build}
+skip_tags: true
+build_script:
+- cmd: build.bat
+artifacts:
+- path: dist\*.exe
+  name: elk-windows-installer
+deploy:
+- provider: GitHub
+  tag: v$(appveyor_build_version)
+  auth_token:
+    secure: WKW7iv7GyuUpIzWa8ptBbrG9X2OtBR4YSr9ZKQiv9/0qqW+wgqDC3oG0F6+57ZBk
+  draft: true
